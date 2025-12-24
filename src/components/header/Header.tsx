@@ -1,10 +1,15 @@
-function Header() {
+import styles from "./Header.module.scss";
+import Logo from "./Logo";
+import Nav from "./Nav";
+
+const Header = () => {
   return (
     <>
-      <div>
-        <h3>salut je suis un header</h3>
-      </div>
+      <nav className={`${styles["main-nav"]}`}>
+        <Logo src="/assets/img/argentBankLogo.png" to={"/"} />
+        <Nav content={"Sign In"} to={"/sign-in"} />
+      </nav>
     </>
   );
-}
+};
 export default Header;
