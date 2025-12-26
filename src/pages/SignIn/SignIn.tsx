@@ -1,5 +1,13 @@
+import LogCard from "@/components/LogCard";
+
 const SignIn = () => {
-  return <h2>Connexion</h2>;
+  return (
+    <main className="main bg-dark">
+      <section className="sign-in-content">
+        <LogCard />
+      </section>
+    </main>
+  );
 };
 
 export default SignIn;
