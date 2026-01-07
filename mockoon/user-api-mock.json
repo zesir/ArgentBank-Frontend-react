@@ -1,0 +1,129 @@
+{
+  "uuid": "9be0559a-0acc-4753-9d78-30abbca59882",
+  "lastMigration": 33,
+  "name": "User api mock",
+  "endpointPrefix": "api/v1",
+  "latency": 0,
+  "port": 3002,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "dff70871-e693-4283-942a-1838409ae387",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "user/profile",
+      "responses": [
+        {
+          "uuid": "18621371-b2c0-4910-bff9-64469c3560f7",
+          "body": "{\n \"status\": 200,\n  \"message\": \"User profile retrieved successfully\",\n  \"body\": {\n    \"id\": 1,\n    \"email\": \"steve@rogers.com\",\n    \"firstName\": \"Steve\",\n    \"lastName\": \"Rogers\",\n    \"userName\": \"CaptainAmerica\",\n    \"balance\": 987.65\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "fee94e7e-e777-439c-95aa-172265a8e93d",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "user/login",
+      "responses": [
+        {
+          "uuid": "249dfd4a-b543-4327-a7e8-70ad12e68429",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"Login successful\",\n  \"body\": {\n    \"token\": \"fake-jwt-token\"\n  }\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "dff70871-e693-4283-942a-1838409ae387"
+    },
+    {
+      "type": "route",
+      "uuid": "fee94e7e-e777-439c-95aa-172265a8e93d"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
