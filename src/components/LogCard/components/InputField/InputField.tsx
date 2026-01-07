@@ -9,11 +9,23 @@ type InputFieldProps = {
   onChange: Dispatch<SetStateAction<string>>;
 };
 
-const InputField = ({ id, label, type = "text" }: InputFieldProps) => {
+const InputField = ({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+}: InputFieldProps) => {
   return (
     <div className={`${styles["input-wrapper"]}`}>
       <label htmlFor={id}>{label}</label>
-      <input type={type} id={id} />
+      <input
+        id={id}
+        name={id}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </div>
   );
 };

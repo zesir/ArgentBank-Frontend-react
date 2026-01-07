@@ -4,6 +4,8 @@ import InputField from "../InputField";
 import RememberMe from "../RememberMe";
 import styles from "./LoginForm.module.scss";
 
+const API_URL = "http://localhost:3002/api/v1";
+
 const LoginForm = () => {
   const navigate = useNavigate();
 
@@ -11,10 +13,28 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // futur appel API
-    navigate("/user");
+    try {
+      console.log("USERNAME:", username);
+      console.log("PASSWORD:", password);
+      const res = await fetch(`${API_URL}/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password }),
+      });
+
+      const data = await res.json();
+
+      // stocker le token pour l'utiliser sur la page user
+      localStorage.setItem("token", data.body.token);
+
+      // rediriger vers la page user
+      navigate("/user");
+    } catch (err) {
+      console.error("Login failed:", err);
+      alert("Login failed. Please try again.");
+    }
   };
 
   return (
