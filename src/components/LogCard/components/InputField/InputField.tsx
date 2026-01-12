@@ -1,12 +1,10 @@
-import type { Dispatch, SetStateAction } from "react";
-import styles from "./InputField.module.scss";
-
 type InputFieldProps = {
   id: string;
   label: string;
   type?: string;
   value: string;
-  onChange: Dispatch<SetStateAction<string>>;
+  className?: string;
+  onChange: (value: string) => void;
 };
 
 const InputField = ({
@@ -14,10 +12,11 @@ const InputField = ({
   label,
   type = "text",
   value,
+  className,
   onChange,
 }: InputFieldProps) => {
   return (
-    <div className={`${styles["input-wrapper"]}`}>
+    <div className={className}>
       <label htmlFor={id}>{label}</label>
       <input
         id={id}

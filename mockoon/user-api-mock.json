@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "18621371-b2c0-4910-bff9-64469c3560f7",
-          "body": "{\n \"status\": 200,\n  \"message\": \"User profile retrieved successfully\",\n  \"body\": {\n    \"id\": 1,\n    \"email\": \"steve@rogers.com\",\n    \"firstName\": \"Steve\",\n    \"lastName\": \"Rogers\",\n    \"userName\": \"CaptainAmerica\",\n    \"balance\": 987.65\n  }\n}",
+          "body": "{\n \"status\": 200,\n  \"message\": \"User profile retrieved successfully\",\n  \"body\": {\n    \"id\": 1,\n    \"email\": \"steve@rogers.com\",\n    \"firstName\": \"Steve\",\n    \"lastName\": \"Rogers\",\n    \"userName\": \"CaptainAmerica\",\n    \"argentBankChecking\": 987.65,\n    \"argentBankSavings\": 2567,\n    \"argentBankCreditCard\":568\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -69,6 +69,37 @@
       "responseMode": null,
       "streamingMode": null,
       "streamingInterval": 0
+    },
+    {
+      "uuid": "0bbccfaf-e956-44e3-851e-933b58bd971c",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "user/profile",
+      "responses": [
+        {
+          "uuid": "7afad0b6-c7a2-4e40-a35b-d37eb9e028b3",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"Profile updated\",\n  \"body\": {\n    \"userName\": \"{{request.body.userName}}\",\n    \"firstName\": \"{{request.body.firstName}}\",\n    \"lastName\": \"{{request.body.lastName}}\"\n  }\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
@@ -79,6 +110,10 @@
     {
       "type": "route",
       "uuid": "fee94e7e-e777-439c-95aa-172265a8e93d"
+    },
+    {
+      "type": "route",
+      "uuid": "0bbccfaf-e956-44e3-851e-933b58bd971c"
     }
   ],
   "proxyMode": false,
