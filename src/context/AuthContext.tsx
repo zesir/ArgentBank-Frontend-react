@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import type { UserProfile } from "@/types/UserProfile";
 import { createContext } from "react";
 
@@ -8,6 +9,7 @@ export type AuthContextType = {
   setUser: (user: UserProfile | null) => void;
 };
 
+// Valeurs par défaut pour le contexte
 export const AuthContext = createContext<AuthContextType>({
   token: undefined,
   user: null,

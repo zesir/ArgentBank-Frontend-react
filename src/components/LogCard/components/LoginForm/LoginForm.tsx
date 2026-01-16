@@ -1,65 +1,47 @@
+// src/components/LoginForm/LoginForm.tsx
 import { useAuth } from "@/Hooks/useAuth";
+import { authenticateUser } from "@/api/auth.services";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../InputField";
 import RememberMe from "../RememberMe";
 import styles from "./LoginForm.module.scss";
 
-const API_URL = "http://localhost:3001/api/v1";
-
 const LoginForm = () => {
   const navigate = useNavigate();
   const { setToken, setUser } = useAuth();
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("handleSubmit called");
 
     try {
-      // 1️⃣ login et récupération du token
-      const res = await fetch(`${API_URL}/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: username, password }),
-      });
+      const { token, user } = await authenticateUser(username, password);
+      console.log("authenticateUser returned:", { token, user });
 
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "Login failed");
-
-      const token = data.body.token;
       setToken(token);
-
-      // 2️⃣ fetch le profil complet juste après le login
-      const profileRes = await fetch(`${API_URL}/user/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const profileData = await profileRes.json();
-      setUser(profileData.body);
-
-      // 3️⃣ rediriger vers User
+      setUser(user);
+      console.log("Context updated, navigating to /user");
       navigate("/user");
-    } catch (err) {
-      console.error("Login failed:", err);
-      alert("Login failed. Please check your credentials.");
+    } catch (err: unknown) {
+      console.error("Error caught in handleSubmit:", err);
+      setError(err instanceof Error ? err.message : "Login failed");
     }
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <InputField
-        className="input-wrapper"
         id="username"
-        label="Username"
+        label="Email"
         value={username}
         onChange={setUsername}
       />
       <InputField
-        className="input-wrapper"
         id="password"
         label="Password"
         type="password"
@@ -68,9 +50,11 @@ const LoginForm = () => {
       />
       <RememberMe checked={rememberMe} onChange={setRememberMe} />
 
-      <button type="submit" className={`${styles["sign-in-button"]}`}>
+      <button type="submit" className={styles["sign-in-button"]}>
         Sign In
       </button>
+
+      {error && <p className={styles.error}>{error}</p>}
     </form>
   );
 };
