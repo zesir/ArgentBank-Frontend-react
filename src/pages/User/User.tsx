@@ -1,111 +1,22 @@
+// src/pages/User/User.tsx
 import AccountCard from "@/components/AccountCard";
+
 import EditUserNameForm from "@/components/EditUserNameForm/EditUserNameForm";
-import { useAuth } from "@/Hooks/useAuth";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type { UserProfile } from "@/types/UserProfile";
 
-const API_URL = "http://localhost:3001/api/v1";
-
-const User = () => {
-  const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const { token, user, setUser } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // 1️⃣ Token pas encore déterminé → on attend
-    if (token === undefined) return;
-
-    // 2️⃣ Pas connecté → redirection
-    if (token === null) {
-      navigate("/sign-in");
-      return;
-    }
-
-    // 3️⃣ Connecté → fetch du profil
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-
-        const res = await fetch(`${API_URL}/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error("Unauthorized");
-        }
-
-        const data = await res.json();
-        setUser({
-          email: data.body.email,
-          firstName: data.body.firstName,
-          lastName: data.body.lastName,
-          userName: data.body.userName,
-        });
-      } catch (error) {
-        console.error("Failed to fetch profile", error);
-        navigate("/sign-in");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [token, navigate, setUser]);
-
-  // ⬇️ RENDU CONDITIONNEL (UNIQUEMENT ICI)
-
-  if (token === undefined) {
-    return <p>Vérification du token...</p>;
-  }
-
-  if (loading) {
-    return <p>Chargement...</p>;
-  }
-
-  if (!user) {
-    return <p>Aucune donnée utilisateur</p>;
-  }
-
-  const onSaveHandler = async (updatedUser: {
+type UserProps = {
+  user: UserProfile;
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
+  onSave: (updatedUser: {
     userName: string;
     firstName: string;
     lastName: string;
-  }) => {
-    try {
-      const res = await fetch(`${API_URL}/user/profile`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedUser),
-      });
+  }) => void;
+};
 
-      if (!res.ok) {
-        throw new Error("Update failed");
-      }
-
-      const data = await res.json();
-      console.log("Réponse du backend :", data);
-
-      // ⚡ Appelle correctement setUser
-      setUser({
-        email: data.body.email,
-        firstName: data.body.firstName,
-        lastName: data.body.lastName,
-        userName: data.body.userName,
-      });
-
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Erreur mise à jour profil", error);
-      alert("Erreur lors de la mise à jour du profil");
-    }
-  };
+const User = ({ user, isEditing, setIsEditing, onSave }: UserProps) => {
+  if (!user) return null; // sécurité supplémentaire
 
   return (
     <main className="main bg-dark">
@@ -126,7 +37,7 @@ const User = () => {
             firstName={user.firstName}
             lastName={user.lastName}
             onCancel={() => setIsEditing(false)}
-            onSave={onSaveHandler}
+            onSave={onSave}
           />
         )}
       </div>

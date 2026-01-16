@@ -7,7 +7,7 @@ const Header = () => {
     <>
       <nav className={`${styles["main-nav"]}`}>
         <Logo src="/assets/img/argentBankLogo.png" to={"/"} />
-        <Nav content={"Sign In"} to={"/sign-in"} />
+        <Nav />
       </nav>
     </>
   );
