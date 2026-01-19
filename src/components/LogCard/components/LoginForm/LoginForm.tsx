@@ -1,7 +1,8 @@
 // src/components/LoginForm/LoginForm.tsx
-import { useAuth } from "@/Hooks/useAuth";
 import { authenticateUser } from "@/api/auth.services";
+import { login } from "@/redux/userSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import InputField from "../InputField";
 import RememberMe from "../RememberMe";
@@ -9,7 +10,8 @@ import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { setToken, setUser } = useAuth();
+
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,20 +23,32 @@ const LoginForm = () => {
     console.log("handleSubmit called");
 
     try {
-      const { token, user } = await authenticateUser(username, password);
-      console.log("authenticateUser returned:", { token, user });
+      const { token, user: userData } = await authenticateUser(
+        username,
+        password,
+      );
+      console.log("authenticateUser returned:", { token, userData });
 
-      setToken(token);
-      setUser(user);
-      console.log("Context updated, navigating to /user");
+      // ✅ Redux dispatch
+      dispatch(
+        login({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          token,
+          userName: userData.userName, // si tu l’as ajouté
+        }),
+      );
+
+      console.log("Redux store updated, navigating to /user");
       navigate("/user");
     } catch (err: unknown) {
       console.error("Error caught in handleSubmit:", err);
       setError(err instanceof Error ? err.message : "Login failed");
     }
   };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="input-wrapper" onSubmit={handleSubmit}>
       <InputField
         id="username"
         label="Email"

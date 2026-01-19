@@ -1,17 +1,19 @@
+import { store } from "@/redux/store";
 import AppRouter from "@/router/AppRouter";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { AuthProvider } from "./context/AuthProvider";
+
 function App() {
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <BrowserRouter>
         <Header />
         <AppRouter />
         <Footer footerText="Copyright 2020 Argent Bank" />
       </BrowserRouter>
-    </AuthProvider>
+    </Provider>
   );
 }
 

@@ -1,6 +1,9 @@
 .main-nav-item {
+  all: unset;
   text-decoration: none;
   margin-right: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
   &:hover {
     text-decoration: underline;
   }

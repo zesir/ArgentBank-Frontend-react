@@ -1,15 +1,20 @@
 // src/pages/User/UserContainer.tsx
 import { getUserProfile, updateUserProfile } from "@/api/user.api";
-import { useAuth } from "@/Hooks/useAuth";
+import type { RootState } from "@/redux/store";
+import { login } from "@/redux/userSlice";
 import type { UserProfile } from "@/types/UserProfile";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import User from "./User";
 
 const UserContainer = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const shouldEdit = searchParams.get("edit") === "true";
-  const { token, user, setUser } = useAuth();
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  const token = user.token;
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(shouldEdit);
   const navigate = useNavigate();
@@ -34,7 +39,7 @@ const UserContainer = () => {
       try {
         setLoading(true);
         const profile: UserProfile = await getUserProfile(token);
-        setUser(profile);
+        dispatch(login({ ...user, ...profile }));
       } catch (err) {
         console.error("Erreur récupération profil :", err);
         navigate("/sign-in");
@@ -44,7 +49,7 @@ const UserContainer = () => {
     };
 
     fetchProfile();
-  }, [token, navigate, setUser]);
+  }, [token, navigate, dispatch, user]);
 
   const onSaveHandler = async (updatedUser: {
     userName: string;
@@ -55,7 +60,7 @@ const UserContainer = () => {
 
     try {
       const updatedProfile = await updateUserProfile(token, updatedUser);
-      setUser(updatedProfile);
+      dispatch(login({ ...user, ...updatedProfile })); // ✅ ici Redux est mis à jour
       setIsEditing(false);
     } catch (err) {
       console.error(err);
