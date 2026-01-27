@@ -3,6 +3,21 @@
 Projet frontend de l’application **ArgentBank**, développé avec **React**, **Vite**, **TypeScript** et **Sass**, dans le cadre de la formation _Intégrateur Web_ (OpenClassrooms).
 
 ---
+## Project Management
+
+Functional requirements for this project are tracked using GitHub Issues 
+in the official OpenClassrooms fork: [ArgentBank fork](https://github.com/zesir/ArgentBank-Frontend).
+
+### Issues and Features
+
+| Issue | Functionality | Label | Status |
+|-------|---------------|-------|--------|
+| #2 Login Requirement | User can login to the system | authentication | Completed |
+| #3 Logout Requirement | User can logout from the system | enhancement | Completed |
+| #6 Redux Requirement | Redux implemented for state management | enhancement | Completed |
+| #5 Update Profile Feature | User can update their profile | enhancement | Completed |
+
+**Note:** All frontend implementation is done in this React repository.
 
 ## 🧩 Technologies utilisées
 
