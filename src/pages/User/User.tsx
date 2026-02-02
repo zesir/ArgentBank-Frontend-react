@@ -44,19 +44,19 @@ const User = ({ user, isEditing, setIsEditing, onSave }: UserProps) => {
 
       <AccountCard
         title="Argent Bank Checking (x8349)"
-        amount={2500}
+        amount={2082.79}
         description="Available Balance"
         transactionPath="/transaction"
       />
       <AccountCard
         title="Argent Bank Savings (x6712)"
-        amount={2500}
+        amount={10928.42}
         description="Available Balance"
         transactionPath="/transaction"
       />
       <AccountCard
         title="Argent Bank Credit Card (x8349)"
-        amount={2450}
+        amount={184.3}
         description="Current Balance"
         transactionPath="/transaction"
       />

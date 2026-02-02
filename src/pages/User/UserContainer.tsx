@@ -19,7 +19,6 @@ const UserContainer = () => {
   const [isEditing, setIsEditing] = useState(shouldEdit);
   const navigate = useNavigate();
 
-  // 🔑 écoute du state de navigation
   useEffect(() => {
     if (!isEditing && searchParams.get("edit") === "true") {
       searchParams.delete("edit");
@@ -60,8 +59,7 @@ const UserContainer = () => {
 
     try {
       const updatedProfile = await updateUserProfile(token, updatedUser);
-      dispatch(login({ ...user, ...updatedProfile })); // ✅ ici Redux est mis à jour
-      setIsEditing(false);
+      dispatch(login({ ...user, ...updatedProfile }));
     } catch (err) {
       console.error(err);
     }

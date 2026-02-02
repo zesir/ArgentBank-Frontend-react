@@ -18,32 +18,44 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
+  const getLoginErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+      if (error.message.includes("401")) {
+        return "Email ou mot de passe incorrect";
+      }
+      if (error.message.includes("Network")) {
+        return "Problème de connexion au serveur";
+      }
+    }
+    return "Une erreur est survenue. Veuillez réessayer.";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSubmit called");
 
     try {
       const { token, user: userData } = await authenticateUser(
         username,
         password,
       );
-      console.log("authenticateUser returned:", { token, userData });
 
-      // ✅ Redux dispatch
+      // 🔐 Stockage du token
+      localStorage.setItem("token", token);
+
+      // Redux dispatch
       dispatch(
         login({
           firstName: userData.firstName,
           lastName: userData.lastName,
           token,
-          userName: userData.userName, // si tu l’as ajouté
+          userName: userData.userName,
         }),
       );
 
-      console.log("Redux store updated, navigating to /user");
       navigate("/user");
     } catch (err: unknown) {
       console.error("Error caught in handleSubmit:", err);
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(getLoginErrorMessage(err));
     }
   };
 

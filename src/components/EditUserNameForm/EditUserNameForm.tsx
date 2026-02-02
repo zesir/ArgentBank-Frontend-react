@@ -49,6 +49,7 @@ const EditUserNameForm = ({
         label="First Name"
         value={localFirstName}
         onChange={setLocalFirstName}
+        disabled={true}
       />
       <InputField
         className="header-input"
@@ -56,6 +57,7 @@ const EditUserNameForm = ({
         label="Last Name"
         value={localLastName}
         onChange={setLocalLastName}
+        disabled={true}
       />
 
       <Button type="submit" label="Save" className="edit-button-action" />

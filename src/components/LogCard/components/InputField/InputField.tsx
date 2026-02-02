@@ -5,6 +5,7 @@ type InputFieldProps = {
   value: string;
   className?: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 };
 
 const InputField = ({
@@ -14,6 +15,7 @@ const InputField = ({
   value,
   className,
   onChange,
+  disabled,
 }: InputFieldProps) => {
   return (
     <div className={className}>
@@ -24,6 +26,7 @@ const InputField = ({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
       />
     </div>
   );

@@ -26,6 +26,7 @@ const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.token = "";
+      localStorage.removeItem("token");
     },
   },
 });
