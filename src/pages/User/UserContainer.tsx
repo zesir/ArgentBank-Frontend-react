@@ -27,9 +27,7 @@ const UserContainer = () => {
   }, [isEditing, searchParams, setSearchParams]);
 
   useEffect(() => {
-    if (token === undefined) return;
-
-    if (token === null) {
+    if (!token) {
       navigate("/sign-in");
       return;
     }
@@ -38,9 +36,16 @@ const UserContainer = () => {
       try {
         setLoading(true);
         const profile: UserProfile = await getUserProfile(token);
-        dispatch(login({ ...user, ...profile }));
+
+        dispatch(
+          login({
+            token,
+            ...profile,
+          }),
+        );
       } catch (err) {
         console.error("Erreur récupération profil :", err);
+        localStorage.removeItem("token");
         navigate("/sign-in");
       } finally {
         setLoading(false);
@@ -48,7 +53,7 @@ const UserContainer = () => {
     };
 
     fetchProfile();
-  }, [token, navigate, dispatch, user]);
+  }, [token, dispatch, navigate]);
 
   const onSaveHandler = async (updatedUser: {
     userName: string;

@@ -4,7 +4,7 @@ import { BrowserRouter, useNavigate } from "react-router-dom";
 
 import { getProfile } from "@/api/auth.api";
 import { store } from "@/redux/store";
-import { login, logout } from "@/redux/userSlice";
+import { authChecked, login, logout } from "@/redux/userSlice";
 
 import AppRouter from "@/router/AppRouter";
 import Footer from "./components/Footer";
@@ -16,7 +16,11 @@ const AppContent = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+
+    if (!token) {
+      dispatch(authChecked());
+      return;
+    }
 
     getProfile(token)
       .then((res) => {
