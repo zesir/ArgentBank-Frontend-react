@@ -1,10 +1,11 @@
 // src/api/http.ts
-const API_URL = "http://localhost:3001/api/v1";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const http = async <T>(
   endpoint: string,
   options: RequestInit = {},
-  token?: string
+  token?: string,
 ): Promise<T> => {
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
