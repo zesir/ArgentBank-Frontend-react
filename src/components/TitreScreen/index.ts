@@ -1,1 +1,1 @@
-export { default } from "./Titrescreen";
+export { default } from "./TitreScreen";
